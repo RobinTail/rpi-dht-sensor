@@ -18,7 +18,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/time.h>
-#include <bcm2835.h>
+#include "bcm2835.h"
 #include <unistd.h>
 #include <sched.h>
 
@@ -49,6 +49,9 @@ unsigned long long getTime()
 
 long readDHT(int type, int pin, float &temperature, float &humidity)
 {
+#ifdef VERBOSE
+       printf("type %d, pin %d\n", type, pin);
+#endif
     int counter = 0;
     int laststate = HIGH;
     int j=0;
@@ -91,6 +94,10 @@ long readDHT(int type, int pin, float &temperature, float &humidity)
         }
         bcm2835_delayMicroseconds(1); //usleep(1);
     }
+
+#ifdef VERBOSE
+            printf("Read data.\n");
+#endif
     
     // read data!
     for (int i = 0; i < MAXTIMINGS; i++) {
@@ -179,7 +186,7 @@ int initialize()
     schedp.sched_priority = 1;
     sched_setscheduler(0, SCHED_FIFO, &schedp);
 
-    if (!bcm2835_init())
+    if (!bcm2835_init(0))
     {
 #ifdef VERBOSE
         printf("BCM2835 initialization failed.\n");
@@ -211,6 +218,10 @@ void Read(const Nan::FunctionCallbackInfo<Value>& args) {
     do {
         result = readDHT(SensorType, GPIOPort, temperature, humidity);
         if (--retry < 0) break;
+
+        if (result != 0) {
+            bcm2835_delay(2500);
+        }
     } while (result != 0);
 
     Local<Object> readout = Nan::New<Object>();

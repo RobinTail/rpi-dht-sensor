@@ -1,10 +1,10 @@
-# node-dht-sensor
+# dht-sensor
 
 This node.js module supports querying air temperature and relative humidity from a compatible DHT sensor.
 
 ## Installation
 ``` bash
-$ npm install node-dht-sensor
+$ npm install dht-sensor
 ```
 
 ## Usage
@@ -12,103 +12,57 @@ $ npm install node-dht-sensor
 This module uses the [BCM2835](http://www.airspayce.com/mikem/bcm2835/) library that requires access to 
 /open/mem. Because of this, you will typically run node with admin privileges.
 
-The first step is initializing the sensor by specifying the sensor type and which GPIO pin the sensor is connected. It should work for DHT11, DHT22 and AM2302 sensors. If the initialization succeeds when you can call the read function to obtain the latest readout from the sensor. Readout values contains a temperature and a humidity property.
+The library works for DHT11, DHT22 and AM2302 sensors. You should create a new class of the sensor type you have specifying the Pin number. After this, you can start reading. On the first read, the sensor will be initialized. If the initialization fails, the read will throw an error.
 
-### First Example
+The module supports only physical PIN numbering, GPIO numbers are not supported yet.
 
-This sample queries the AM2302 sensor connected to the GPIO 4 every 2 seconds and displays the result on the console. 
+
+### Example
+#### DHT22
+
+This sample queries the AM2302 sensor connected to the PIN 3 every 5 seconds and displays the result on the console. 
 
 ``` javascript
-var sensorLib = require('node-dht-sensor');
+var nodeDht = require('node-dht-sensor');
 
-var sensor = {
-    initialize: function () {
-        return sensorLib.initialize(22, 4);
-    },
-    read: function () {
-        var readout = sensorLib.read();
-        console.log('Temperature: ' + readout.temperature.toFixed(2) + 'C, ' +
-            'humidity: ' + readout.humidity.toFixed(2) + '%');
-        setTimeout(function () {
-            sensor.read();
-        }, 2000);
-    }
-};
+var dht = new nodeDht.DHT22(2);
 
-if (sensor.initialize()) {
-    sensor.read();
-} else {
-    console.warn('Failed to initialize sensor');
+function read () {
+  var readout = dht.read();
+
+    console.log('Temperature: ' + readout.temperature.toFixed(2) + 'C, ' +
+        'humidity: ' + readout.humidity.toFixed(2) + '%');
+    setTimeout(read, 5000);
 }
+read();
 ```
 
-### Multiple Sensors Example
-
-The following example shows a method for querying multiple sensors connected to the same Raspberry Pi. For this example, we have two sensors:
-
-1. A DHT11 sensor connected to GPIO 17
-2. High-resolution DHT22 sensor connected to GPIO 4
+#### DHT 11 example
 
 ``` javascript
-var sensorLib = require("node-dht-sensor");
+var nodeDht = require('node-dht-sensor');
 
-var sensor = {
-    sensors: [ {
-        name: "Indoor",
-        type: 11,
-        pin: 17
-    }, {
-        name: "Outdoor",
-        type: 22,
-        pin: 4
-    } ],
-    read: function() {
-        for (var a in this.sensors) {
-            var b = sensorLib.readSpec(this.sensors[a].type, this.sensors[a].pin);
-            console.log(this.sensors[a].name + ": " + 
-              b.temperature.toFixed(1) + "C, " + 
-              b.humidity.toFixed(1) + "%");
-        }
-        setTimeout(function() {
-            sensor.read();
-        }, 2000);
-    }
-};
+var dht = new nodeDht.DHT11(2);
 
-sensor.read();
+function read () {
+  var readout = dht.read();
+
+    console.log('Temperature: ' + readout.temperature.toFixed(2) + 'C, ' +
+        'humidity: ' + readout.humidity.toFixed(2) + '%');
+    setTimeout(read, 5000);
+}
+read();
 ```
-
-
-### Reference for building from source
-
-Standard node-gyp commands are used to build the module.
-
-1. In case, you don't have node-gyp, install it first:
-   ``` bash
-   $ sudo npm install node-gyp -g
-   ```
-
-2. Generate the configuration files
-   ``` bash
-   $ node-gyp configure
-   ```
-
-3. Build the component
-   ``` bash
-   $ node-gyp build
-   ```
 
 ### Verbose output
 
-Verbose output from the module can be enabled by defining ```VERBOSE``` during the module compilation. For example, this can be enabled via the binging,gyp file:
+Verbose output from the module can be enabled by defining ```VERBOSE``` during the module compilation. For example, this can be enabled via the binging.gyp file:
 
 ``` javascript
 {
   'targets': [
     {
-      'target_name': 'node-dht-sensor',
-      'sources': [ 'node-dht-sensor.cpp' ],
-      'libraries': [ '-lbcm2835' ],
+      ...,
       'defines': [ 'VERBOSE']
     }
   ]
