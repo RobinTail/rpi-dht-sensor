@@ -1,10 +1,9 @@
 {
-  "author": "Roland Vachter, David Momenso",
-  "name": "dht-sensor",
+  "name": "rpi-dht-sensor",
   "description": "Reads data from DHT sensors on Raspberry Pi",
   "version": "0.1.0",
   "repository": {
-    "url": "https://github.com/roland-vachter/dht-sensor"
+    "url": "https://github.com/roland-vachter/rpi-dht-sensor"
   },
   "scripts": {
     "install": "node-gyp rebuild"
@@ -15,5 +14,9 @@
     "bindings": "^1.2.1"
   },
   "gypfile": true,
-  "license": "LGPL-3.0"
+  "license": "LGPL-3.0",
+  "author": "Roland Vachter",
+  "contributors": [
+    "David Momenso"
+  ]
 }
