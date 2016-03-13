@@ -4,7 +4,7 @@ This node.js module supports querying air temperature and relative humidity from
 
 ## Installation
 ``` bash
-$ npm install dht-sensor
+$ npm install rpi-dht-sensor
 ```
 
 ## Usage
@@ -23,9 +23,9 @@ The module supports only physical PIN numbering, GPIO numbers are not supported 
 This sample queries the AM2302 sensor connected to the PIN 3 every 5 seconds and displays the result on the console. 
 
 ``` javascript
-var nodeDht = require('node-dht-sensor');
+var rpiDhtSensor = require('rpi-dht-sensor');
 
-var dht = new nodeDht.DHT22(2);
+var dht = new rpiDhtSensor.DHT22(2);
 
 function read () {
   var readout = dht.read();
@@ -40,9 +40,9 @@ read();
 #### DHT 11 example
 
 ``` javascript
-var nodeDht = require('node-dht-sensor');
+var rpiDhtSensor = require('rpi-dht-sensor');
 
-var dht = new nodeDht.DHT11(2);
+var dht = new rpiDhtSensor.DHT11(2);
 
 function read () {
   var readout = dht.read();
