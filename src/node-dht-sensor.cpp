@@ -134,11 +134,11 @@ long readDHT(int type, int pin, float &temperature, float &humidity)
 
         if (type == DHT11) {
 #ifdef VERBOSE
-            printf("Temp = %d C, Hum = %d %%\n", data[2], data[0]);
+            printf("Temp = %d.%d C, Hum = %d.%d %%\n", data[2], data[3], data[0], data[1]);
 #endif
-            temperature = data[2];
-            humidity = data[0];
-        }
+            temperature = (float)data[2] + (float)data[3] / 10.0;
+            humidity = (float)data[0] + (float)data[1] / 10.0;
+	}
         else if (type == DHT22)
         {
             float f, h;
