@@ -22,7 +22,7 @@
 #include <unistd.h>
 #include <sched.h>
 
-#define MAXTIMINGS 100
+#define MAXTIMINGS 85
 
 #define DHT11  11
 #define DHT22  22
