@@ -92,7 +92,7 @@ long readDHT(int type, int pin, float &temperature, float &humidity)
 #endif
             return -3;
         }
-        bcm2835_delayMicroseconds(1); //usleep(1);
+        bcm2835_delayMicroseconds(2); //usleep(1);
     }
 
 #ifdef VERBOSE
