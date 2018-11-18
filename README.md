@@ -20,12 +20,12 @@ The module supports only physical BCM numbering (GPIO17 = 17).
 ### Example
 #### DHT22
 
-This sample queries the AM2302 sensor connected to the PIN 3 every 5 seconds and displays the result on the console. 
+This sample queries the DHT22 sensor connected to the GPIO17 every 5 seconds and displays the result on the console. 
 
 ``` javascript
 var rpiDhtSensor = require('rpi-dht-sensor');
 
-var dht = new rpiDhtSensor.DHT22(2);
+var dht = new rpiDhtSensor.DHT22(17);
 
 function read () {
   var readout = dht.read();
@@ -42,7 +42,7 @@ read();
 ``` javascript
 var rpiDhtSensor = require('rpi-dht-sensor');
 
-var dht = new rpiDhtSensor.DHT11(2);
+var dht = new rpiDhtSensor.DHT11(17);
 
 function read () {
   var readout = dht.read();
