@@ -186,7 +186,7 @@ int initialize()
     schedp.sched_priority = 1;
     sched_setscheduler(0, SCHED_FIFO, &schedp);
 
-    if (!bcm2835_init(0))
+    if (!bcm2835_init())
     {
 #ifdef VERBOSE
         printf("BCM2835 initialization failed.\n");
