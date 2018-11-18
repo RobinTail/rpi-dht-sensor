@@ -14,7 +14,7 @@ This module uses the [BCM2835](http://www.airspayce.com/mikem/bcm2835/) library 
 
 The library works for DHT11, DHT22 and AM2302 sensors. You should create a new class of the sensor type you have specifying the Pin number. After this, you can start reading. On the first read, the sensor will be initialized. If the initialization fails, the read will throw an error.
 
-The module supports only physical PIN numbering, GPIO numbers are not supported yet.
+The module supports only physical BCM numbering (GPIO17 = 17).
 
 
 ### Example
